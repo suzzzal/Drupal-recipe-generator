@@ -71,6 +71,26 @@ class RecipeGeneratorForm extends FormBase {
     \Drupal::service('ai_recipe.generator')->generate($prompt);
   }
 }
+
+class SiteConfigService {
+
+  public function getSummary() {
+    $content_types = \Drupal::entityTypeManager()
+      ->getStorage('node_type')
+      ->loadMultiple();
+
+    $fields = \Drupal::entityTypeManager()
+      ->getStorage('field_storage_config')
+      ->loadMultiple();
+
+    return [
+      'content_types' => array_keys($content_types),
+      'fields' => array_keys($fields),
+    ];
+  }
+}
+
+
 ```
 ### Flow
 
