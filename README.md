@@ -96,15 +96,17 @@ Submits request
 
 ### Suggested Visualization
 
-| Describe your feature |
-| [________________________________] |
-| |
-| Hints: Content Type | Field | View |
-| |
-| Examples: |
-| - Blog system |
-| - Event calendar |
-| |
-| [ Generate Recipe ] |
+----------------------------------------
+| Describe your feature                |
+| [______________________________]     |
+|                                      |
+| Hints: Content Type | Field | View   |
+|                                      |
+| Examples:                            |
+| - Blog system                        |
+| - Event calendar                     |
+|                                      |
+|            [ Generate Recipe ]       |
+---------------------------------------- |
 
 
