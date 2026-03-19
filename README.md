@@ -45,6 +45,33 @@ This helps users structure their prompts more effectively.
 
 ---
 
+### Example: User Prompt Form (Drupal Form API)
+
+```php
+class RecipeGeneratorForm extends FormBase {
+
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['prompt'] = [
+      '#type' => 'textarea',
+      '#title' => 'Describe the feature',
+      '#required' => TRUE,
+    ];
+
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => 'Generate Recipe',
+    ];
+
+    return $form;
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $prompt = $form_state->getValue('prompt');
+
+    \Drupal::service('ai_recipe.generator')->generate($prompt);
+  }
+}
+```
 ### Flow
 
 User opens Recipe Generator UI
