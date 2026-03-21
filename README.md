@@ -105,6 +105,12 @@ if (loadContentType($config['type'])) {
 }
 
 
+while ($attempts < 3) {
+  try { return generate($prompt); }
+  catch ($e) { $prompt .= "Fix: ".$e->getMessage(); }
+}
+throw new Exception("Failed after retries");
+
 ```
 ### Flow
 
