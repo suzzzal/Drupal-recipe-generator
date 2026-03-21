@@ -184,7 +184,19 @@ foreach ($config_files as $name => $content) {
 
 $zip->close();
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
+class SiteConfigService {
+
+  public function __construct(protected EntityTypeManagerInterface $entityTypeManager) {}
+
+  public function getSummary(): array {
+    return [
+      'content_types' => array_keys($this->entityTypeManager->getStorage('node_type')->loadMultiple()),
+      'fields' => array_keys($this->entityTypeManager->getStorage('field_storage_config')->loadMultiple()),
+    ];
+  }
+}
 ```
 ### Flow
 
