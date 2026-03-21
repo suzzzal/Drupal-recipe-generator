@@ -90,6 +90,8 @@ class SiteConfigService {
   }
 }
 
+$data = Yaml::parse($yaml);
+if (!is_array($data)) throw new Exception("Invalid YAML");
 
 ```
 ### Flow
