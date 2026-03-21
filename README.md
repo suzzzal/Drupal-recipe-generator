@@ -93,6 +93,18 @@ class SiteConfigService {
 $data = Yaml::parse($yaml);
 if (!is_array($data)) throw new Exception("Invalid YAML");
 
+
+// Schema check
+if (empty($config['name']) || empty($config['install'])) {
+  throw new Exception("Invalid schema");
+}
+
+// Conflict check
+if (loadContentType($config['type'])) {
+  throw new Exception("Content type exists");
+}
+
+
 ```
 ### Flow
 
