@@ -58,7 +58,6 @@ This helps users structure their prompts more effectively.
 
 class RecipeGeneratorForm extends FormBase {
 
-  // We packed the box and named it all in one single line!
   public function __construct(protected $aiRecipeGenerator) {}
 
   public static function create(ContainerInterface $container) {
@@ -70,14 +69,12 @@ class RecipeGeneratorForm extends FormBase {
   }
 
   public function buildForm(array $form, FormStateInterface $form_state) {
-    // Squished the form pieces into single lines so they fit nicely
     $form['prompt'] = ['#type' => 'textarea', '#title' => $this->t('Describe feature'), '#required' => TRUE];
     $form['submit'] = ['#type' => 'submit', '#value' => $this->t('Generate Recipe')];
     return $form;
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Grabbed the text and gave it to the AI tool in one fast swoop
     $this->aiRecipeGenerator->generate($form_state->getValue('prompt'));
     $this->messenger()->addMessage($this->t('Recipe generated successfully!'));
   }
