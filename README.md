@@ -197,6 +197,20 @@ class SiteConfigService {
     ];
   }
 }
+
+class PromptBuilder {
+
+  public function build(string $user_request, array $site_context): array {
+    // Structuring the prompt logically for the LLM API
+    return [
+      'system_role' => 'Act as a Drupal configuration expert.',
+      'constraints' => 'Output ONLY valid recipe YAML. No markdown formatting or explanations.',
+      'site_context' => json_encode($site_context), // Injected from Step 2
+      'few_shot_examples' => $this->loadDrupalExamples(),
+      'user_prompt' => $user_request,
+    ];
+  }
+}
 ```
 ### Flow
 
