@@ -225,6 +225,32 @@ $updated = $form_state->getValues()['fields'];
 use Symfony\Component\Yaml\Yaml;
 $new_yaml = Yaml::dump($updated, 4, 2);
 
+
+$attempts = 0;
+
+while ($attempts < 3) {
+  try {
+    validateSchema($yaml);
+    checkConflicts($yaml);
+    return $yaml; // valid config
+  } catch (\Exception $e) {
+
+    // Build conflict report
+    $report = [
+      'error' => $e->getMessage(),
+      'yaml' => $yaml
+    ];
+
+    // Send to LLM for fix
+    $yaml = $llm->generate("Fix conflicts:\n" . json_encode($report));
+
+    $attempts++;
+  }
+}
+
+throw new Exception("Conflict resolution failed");
+
+
 ```
 ### Flow
 
