@@ -111,6 +111,26 @@ while ($attempts < 3) {
 }
 throw new Exception("Failed after retries");
 
+// Basic schema validation
+if (empty($config['name']) || empty($config['install']) || empty($config['type'])) {
+  throw new Exception("Invalid configuration schema");
+}
+
+// Basic Conflict check: content type already exists
+$existing = \Drupal::entityTypeManager()
+  ->getStorage('node_type')
+  ->load($config['type']);
+
+if ($existing) {
+  throw new Exception("Content type already exists");
+}
+
+// Validate allowed modules
+$allowed = ['node', 'views', 'image', 'taxonomy'];
+if (array_diff($config['install'], $allowed)) {
+  throw new Exception("Invalid module dependency");
+}
+
 ```
 ### Flow
 
