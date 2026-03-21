@@ -249,8 +249,33 @@ while ($attempts < 3) {
 }
 
 throw new Exception("Conflict resolution failed");
+---
+function saveRecipeHistory($user_id, $prompt, $yaml, $status) {
+    \Drupal::database()->insert('recipe_history')
+        ->fields([
+            'user_id' => $user_id,
+            'prompt' => $prompt,
+            'yaml' => $yaml,
+            'status' => $status,
+            'timestamp' => \Drupal::time()->getRequestTime(),
+        ])
+        ->execute();
+}
+
+function getUserRecipes($user_id) {
+    $query = \Drupal::database()->select('recipe_history', 'r')
+        ->fields('r', ['id', 'prompt', 'status', 'timestamp'])
+        ->condition('user_id', $user_id)
+        ->orderBy('timestamp', 'DESC');
+    return $query->execute()->fetchAll();
+}
 
 
+function getRecipeDetails($recipe_id) {
+    $query = \Drupal::database()->select('recipe_history', 'r')
+        ->fields('r', ['prompt', 'yaml', 'status', 'timestamp'])
+        ->condition('id', $recipe_id
+        
 ```
 ### Flow
 
