@@ -201,16 +201,30 @@ class SiteConfigService {
 class PromptBuilder {
 
   public function build(string $user_request, array $site_context): array {
-    // Structuring the prompt logically for the LLM API
     return [
-      'system_role' => 'Act as a Drupal configuration expert.',
-      'constraints' => 'Output ONLY valid recipe YAML. No markdown formatting or explanations.',
-      'site_context' => json_encode($site_context), // Injected from Step 2
+      'system_role' => 'Act as a Drupal configuration expert...........',
+      'constraints' => 'Output ONLY valid recipe YAML. No markdown formatting or explanations.........',
+      'site_context' => json_encode($site_context), 
       'few_shot_examples' => $this->loadDrupalExamples(),
       'user_prompt' => $user_request,
     ];
   }
 }
+
+use Symfony\Component\Yaml\Yaml;
+$data = Yaml::parse($yaml);
+
+$form['fields'][$field_name] = [
+  '#type' => 'textfield',
+  '#title' => $field_name,
+  '#default_value' => $field_value,
+];
+
+$updated = $form_state->getValues()['fields'];
+
+use Symfony\Component\Yaml\Yaml;
+$new_yaml = Yaml::dump($updated, 4, 2);
+
 ```
 ### Flow
 
