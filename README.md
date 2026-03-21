@@ -48,6 +48,50 @@ This helps users structure their prompts more effectively.
 ### Example: User Prompt Form (Drupal Form API)
 
 ```php
+
+class RecipeGeneratorForm extends FormBase {
+
+  protected $aiRecipeGenerator;
+
+  public function __construct($ai_recipe_generator) {
+    $this->aiRecipeGenerator = $ai_recipe_generator;
+  }
+
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('ai_recipe.generator')
+    );
+  }
+
+  public function getFormId() {
+    return 'recipe_generator_form';
+  }
+
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['prompt'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Describe the feature'),
+      '#required' => TRUE,
+    ];
+
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Generate Recipe'),
+    ];
+
+    return $form;
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $prompt = $form_state->getValue('prompt');
+
+    $this->aiRecipeGenerator->generate($prompt);
+    
+    $this->messenger()->addMessage($this->t('Recipe generated successfully!'));
+  }
+}
+
+----
 class RecipeGeneratorForm extends FormBase {
 
   public function buildForm(array $form, FormStateInterface $form_state) {
