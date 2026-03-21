@@ -131,6 +131,19 @@ if (array_diff($config['install'], $allowed)) {
   throw new Exception("Invalid module dependency");
 }
 
+
+$zip = new \ZipArchive();
+$zip->open('recipe.zip', \ZipArchive::CREATE);
+
+$zip->addFromString('recipe.yml', $recipe_yaml);
+
+foreach ($config_files as $name => $content) {
+  $zip->addFromString("config/$name", $content);
+}
+
+$zip->close();
+
+
 ```
 ### Flow
 
