@@ -49,6 +49,13 @@ This helps users structure their prompts more effectively.
 
 ```php
 
+
+
+
+
+
+
+
 class RecipeGeneratorForm extends FormBase {
 
   // We packed the box and named it all in one single line!
