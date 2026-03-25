@@ -113,6 +113,16 @@ class AIService {
     return $ai->generate($prompt);
   }
 }
+
+$expected = base64_encode(hash_hmac('sha256', $message, $secret, TRUE));
+
+if (!hash_equals($expected, $signature)) {
+  $form_state->setErrorByName('toxicity_token', $this->t('Invalid security token. Please try again.'));
+
+  $this->loggerFactory->get('toxic_content_guard')->warning('HMAC validation failed for message hash: @hash', [
+    '@hash' => md5($message),
+  ]);
+}
 ```
 
 ---
